@@ -1,0 +1,245 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 447862804192505,
+      "steps": 30,
+      "cfg": 1,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": [
+        "19",
+        0
+      ],
+      "positive": [
+        "28",
+        0
+      ],
+      "negative": [
+        "28",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": 1280,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "빈 잠재 이미지"
+    }
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE 디코드"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "Flux/7/Image",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "이미지 저장"
+    }
+  },
+  "10": {
+    "inputs": {
+      "vae_name": "FLUX1\\ae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "VAE 로드"
+    }
+  },
+  "19": {
+    "inputs": {
+      "max_shift": 1.15,
+      "base_shift": 0.5,
+      "width": 1216,
+      "height": 832,
+      "model": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingFlux",
+    "_meta": {
+      "title": "모델 샘플링 (FLUX)"
+    }
+  },
+  "22": {
+    "inputs": {
+      "text": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "Searge_Output_Node",
+    "_meta": {
+      "title": "Searge Output Node"
+    }
+  },
+  "26": {
+    "inputs": {
+      "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",
+      "clip_name2": "clip_l.safetensors",
+      "type": "flux",
+      "device": "default"
+    },
+    "class_type": "DualCLIPLoader",
+    "_meta": {
+      "title": "이중 CLIP 로드"
+    }
+  },
+  "27": {
+    "inputs": {
+      "unet_name": "flux1-dev.safetensors",
+      "weight_dtype": "fp8_e4m3fn"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "확산 모델 로드"
+    }
+  },
+  "28": {
+    "inputs": {
+      "clip_l": [
+        "34",
+        0
+      ],
+      "t5xxl": [
+        "34",
+        0
+      ],
+      "guidance": 3.5,
+      "clip": [
+        "33",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeFlux",
+    "_meta": {
+      "title": "CLIP 텍스트 인코딩 (FLUX)"
+    }
+  },
+  "32": {
+    "inputs": {
+      "text": "반짝이는 소녀의 말을 듣고 더욱 행복해졌어요. 비록 혼자서는 작고 약했지만, 친구들과 함께라면 세상을 밝게 비출 수 있다는 것을 알게 되었답니다.\n그 후로도 반짝이와 친구들은 매일 밤 함께 빛나며 사람들에게 희망과 기쁨을 전했답니다.\n[삽화 설명: 마지막 장면으로, 밤하늘 전체에 작은 별들이 모여 아름다운 별자리나 은하수처럼 빛나는 모습. 반짝이와 초롱이가 중심에서 가장 밝게 빛나고 있음]",
+      "random_seed": 603181840866286,
+      "model": "Mistral-7B-Instruct-v0.3.Q4_K_M.gguf",
+      "max_tokens": 2048,
+      "apply_instructions": true,
+      "instructions": "Generate a prompt from \"{prompt}\""
+    },
+    "class_type": "Searge_LLM_Node",
+    "_meta": {
+      "title": "Searge LLM Node"
+    }
+  },
+  "33": {
+    "inputs": {
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
+      "lora_1": {
+        "on": true,
+        "lora": "FLUX\\Anime_Era_Flux_Lora.safetensors",
+        "strength": 1
+      },
+      "lora_2": {
+        "on": false,
+        "lora": "FLUX\\MoriiMee_Gothic_Niji_Style_FLUX.safetensors",
+        "strength": 0.5
+      },
+      "lora_3": {
+        "on": false,
+        "lora": "FLUX\\Jima Style_epoch_1.safetensors",
+        "strength": 0.93
+      },
+      "lora_4": {
+        "on": true,
+        "lora": "FLUX\\EnvyFluxAnime02.safetensors",
+        "strength": 0.9
+      },
+      "➕ Add Lora": "",
+      "model": [
+        "27",
+        0
+      ],
+      "clip": [
+        "26",
+        0
+      ]
+    },
+    "class_type": "Power Lora Loader (rgthree)",
+    "_meta": {
+      "title": "Power Lora Loader (rgthree)"
+    }
+  },
+  "34": {
+    "inputs": {
+      "delimiter": ", ",
+      "clean_whitespace": "true",
+      "text_a": [
+        "35",
+        0
+      ],
+      "text_b": [
+        "32",
+        0
+      ]
+    },
+    "class_type": "Text Concatenate",
+    "_meta": {
+      "title": "Text Concatenate"
+    }
+  },
+  "35": {
+    "inputs": {
+      "Text": "nime_Era,xcwyum,A whimsical, colorful children's storybook cover illustration, in a cartoon style, featuring cute animals and magical landscapes, soft shading, highly detailed, bright and vibrant colors, fantasy storybook style, child-friendly design"
+    },
+    "class_type": "DF_Text",
+    "_meta": {
+      "title": "Text"
+    }
+  },
+  "36": {
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "이미지 미리보기"
+    }
+  }
+}
